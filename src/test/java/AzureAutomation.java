@@ -100,49 +100,19 @@ public class AzureAutomation {
         Thread.sleep(5000);
 
         //IFRAME DEĞİŞTİ
-        WebElement iframe2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("UploadBlobs.ReactView")));
+        WebElement iframe2= wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("_react_frame_2")));
         driver.switchTo().frame(iframe2);
 
-        Thread.sleep(5000);
-
-        // Dosyamın DRop edileceği Alan:
-        WebElement dragDropBoxTarget = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='ms-Stack uploadBox-141']")));
-
-        /*
-        DRAG AND DROP ÇALIŞMAZSA EĞER UPLOAD BUTONU İLE DOSYA YÜKLEMEYİ DENEYECEĞİM:
-        //WebElement uploadElementButton = driver.findElement(By.xpath("//button[text()='Dosyalara gözat']"));
-        //uploadElementButton.click();
-        //uploadElementButton.sendKeys(folderPath);
-         */
-
-        //FILE TÜRÜNDE JS INPUT CREATE ETTİM
-        String jsCode = "var input = document.createElement('input');"
-                + "input.type = 'file';"
-                + "input.style.visibility='visible';"
-                + "input.style.display = 'block';" // make the element block level so it has a size and is visible
-                + "input.style.opacity = '1';"      // make the element transparent so it's not visible to the user
-                + "input.style.height = '20px';"     // give the element a size
-                + "input.style.width = '20px';"
-                + "input.style.overflow = 'hidden';"// prevent the element from affecting layout
-                + "document.body.appendChild(input);";
-        ((JavascriptExecutor) driver).executeScript(jsCode);
-
-        // DOSYAYI ÇEKTİĞİM YER OLAN   INPUT ELEMENTİNE FILE PATH'İNİ GÖNDERDİM
-        WebElement inputFileSource = driver.findElement(By.cssSelector("input[type='file']"));
-        inputFileSource.sendKeys("C:\\Users\\qonul\\OneDrive\\Desktop\\OtomasyonKlasor\\OtomasyonDosya.docx");
-
         Thread.sleep(3000);
 
-        Actions actions = new Actions(driver);
-        actions.dragAndDrop(inputFileSource,dragDropBoxTarget ).build().perform();
 
-        Thread.sleep(3000);
+        WebElement uploadElementButton = driver.findElement(By.xpath("//input[@type='file']"));
 
-        WebElement overwriteCheckBox = driver.findElement(By.id("checkbox-3"));
-        overwriteCheckBox.click();
+        uploadElementButton.sendKeys("C:\\Users\\qonul\\OneDrive\\Desktop\\OtomasyonKlasor\\OtomasyonDosya.docx");
 
-        WebElement uploadFileButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("id__29")));
-        uploadFileButton.click();
+
+        WebElement lastUploadFileButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='Karşıya yükle']")));
+        lastUploadFileButton.click();
     }
 }
 
